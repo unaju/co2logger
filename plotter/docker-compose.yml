@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  # plot用コンテナ
+  gnuplot:
+    build:
+      context: gnuplot
+    container_name: gnuplot
+    volumes:
+      - ../data:/var/co2log/
+      - ./script:/root/script/
+    # user: "${UID}:${GID}"
+    stdin_open: true
+    tty: true

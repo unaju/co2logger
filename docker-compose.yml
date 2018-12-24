@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  # 記録用コンテナ
+  co2logger:
+    build:
+      context: co2logger
+    container_name: co2logger
+    volumes:
+      - ./data:/var/co2log/
+    user: "${UID}:${GID}"
+    stdin_open: true
+    tty: true
+    privileged: true # HIDアクセスのために必要
