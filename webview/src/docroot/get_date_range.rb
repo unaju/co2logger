@@ -12,6 +12,6 @@ end
 cgi = CGI.new
 cgi.out(type: 'application/json', charset: 'UTF-8') do
   r = get_range
-  r ? "[\"#{r[0]}\",\"#{r[1]}\"]" : "null"
+  r ? "[\"20#{r[0]}\",\"20#{r[1]}\"]" : "null"
 end
 
