@@ -19,32 +19,34 @@ function plotData(data) {
       labelString: 'CO2 [ppm]',
       display: true,
       position: 'left',
-      id: 'y-ax-co2',
+      id: 'y-axis-1',
     },{
       type: 'linear',
       labelString: 'temperature [℃]',
       display: true,
       position: 'right',
-      id: 'y-ax-temp',
+      id: 'y-axis-2',
     }
   ]
   var co2PlotOpt = {
     label: 'CO2',
-    // yAxisID: 'y-ax-co2',
+    xAxisID: 'x-axis-1',
+    yAxisID: 'y-axis-1',
     data: data.co2,
-    backgroundColor: 'RGBA(165,35,9, 20)',
+    backgroundColor: 'RGBA(255, 99, 132, 0.8)',
   };
   var tempPlotOpt = {
     label: 'Temperature',
-    // yAxisID: 'y-ax-temp',
+    xAxisID: 'x-axis-1',
+    yAxisID: 'y-axis-2',
     data: data.temp,
-    backgroundColor: 'RGBA(224,191,6, 20)',
+    backgroundColor: 'RGBA(255, 205, 86, 0.8)',
   };
   var chopt = {
     type: 'scatter', 
-    data: { datasets: [co2PlotOpt] },
+    data: { datasets: [co2PlotOpt, tempPlotOpt] },
     options: {
-      scales: { xAxes: xax }
+      scales: { xAxes: xax, yAxes: yax }
     }
   };
   // グラフ更新
