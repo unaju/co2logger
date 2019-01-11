@@ -16,13 +16,19 @@ function plotData(data) {
   var yax = [
     {
       type: 'linear',
-      labelString: 'CO2 [ppm]',
+      scaleLabel: {
+        display:true,
+        labelString: 'CO2 [ppm]',
+      },
       display: true,
       position: 'left',
       id: 'y-axis-1',
     },{
       type: 'linear',
-      labelString: 'temperature [℃]',
+      scaleLabel: {
+        display:true,
+        labelString: 'temperature [℃]',
+      },
       display: true,
       position: 'right',
       id: 'y-axis-2',
