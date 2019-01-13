@@ -1,19 +1,48 @@
+// 一定サンプル数ごとの平均を算出
+function getAvgArr(arr, span) {
+  let sum = 0, getavgidx = span -1;
+  let r = new Array(Math.ceil(arr.length / span));
+  let ridx = 0;
+  for(let i = 0; i < arr.length; ++i) {
+    sum += arr[i];
+    if(getavgidx == i) {
+      r[ridx++] = sum / span;
+      getavgidx += span;
+      sum = 0;
+    }
+  }
+  // "切れ端"を処理
+  if(getavgidx != (arr.length -1)) { r[ridx] = sum / (arr.length % span); }
+  return r;
+}
+
+
 // データをplot
 function plotData(data) {
-  // 形式変換
-  ['co2', 'temp'].forEach(key => {
-    data[key] = data[key].map(v => ({ x:new Date(v[0]*1000), y:v[1] }))
-  });
-  // plotData.prototype.pdata = data;
+  // 温度データ変換：描画負荷軽減のため一定サンプルごとの平均に変換
+  {
+    // x,y軸でデータ分離し平均算出
+    const span = 10
+    const tmpX = getAvgArr(data.temp.map(v => v[0]), span);
+    const tmpY = getAvgArr(data.temp.map(v => v[1]), span);
+    // x,yでデータ結合
+    data.temp = new Array(tmpX.size)
+    for(let i = 0; i < tmpX.length; ++i) {
+      data.temp[i] = { x:tmpX[i]*1000, y:tmpY[i] };
+    }
+    // console.log(data.temp);
+  }
+  // CO2濃度データ変換：形式変換のみ
+  data.co2 = data.co2.map(v => ({ x:(v[0]*1000), y:v[1] }))
 
   // グラフ描画オプション生成
-  var ctx = document.getElementById("co2ScatterChart");
-  var xax = [{
+  const ctx = document.getElementById("co2ScatterChart");
+  const xax = [{
     type: 'time',
     time: { displayFormats: { hour: "MM/DD HH:mm" } },
     position: 'bottom',
   }];
-  var yax = [
+  const yax = [
     {
       type: 'linear',
       scaleLabel: {
@@ -34,21 +63,21 @@ function plotData(data) {
       id: 'y-axis-2',
     }
   ]
-  var co2PlotOpt = {
+  const co2PlotOpt = {
     label: 'CO2',
     xAxisID: 'x-axis-1',
     yAxisID: 'y-axis-1',
     data: data.co2,
     backgroundColor: 'RGBA(255, 99, 132, 0.8)',
   };
-  var tempPlotOpt = {
+  const tempPlotOpt = {
     label: 'Temperature',
     xAxisID: 'x-axis-1',
     yAxisID: 'y-axis-2',
     data: data.temp,
     backgroundColor: 'RGBA(255, 205, 86, 0.8)',
   };
-  var chopt = {
+  const chopt = {
     type: 'scatter', 
     data: { datasets: [co2PlotOpt, tempPlotOpt] },
     options: {
@@ -62,13 +91,13 @@ function plotData(data) {
 
 // 日付入力フォーム取得
 function getDateForm() {
-  var fm = document.forms.dateselector;
+  const fm = document.forms.dateselector;
   return [fm.date1, fm.date2];
 }
 // 表示期間変更時処理
 function changeDate(e) {
-  var s = getDateForm().map(x => x.value);
-  var u = `./getdata.rb?d1=${s[0]}&d2=${s[1]}`;
+  const s = getDateForm().map(x => x.value);
+  const u = `./getdata.rb?d1=${s[0]}&d2=${s[1]}`;
   console.log(u);
   jQuery.getJSON(u, plotData);
 }
