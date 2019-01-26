@@ -1,6 +1,4 @@
 FROM debian
-MAINTAINER uper
-# ARG CPUCORE="2"
 
 # env設定
 # ENV   PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -12,7 +10,8 @@ RUN \
     ruby ruby-dev \
     libusb-1.0 libusb-dev libhidapi-dev libhidapi-hidraw0 \
     libffi-dev python2.7 python-pip && \
-  gem install hidapi
+  gem install hidapi && \
+  apt clean
 
 # JSTにタイムゾーン設定
 RUN ln -sf  /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
