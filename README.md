@@ -1,5 +1,4 @@
-co2-logger
-====
+# co2-logger
 
 [CO2-mini](https://www.amazon.co.jp/dp/B00I3XJ9LM/)による温度・二酸化炭素濃度をUSB経由で取得し記録します。
 [kurain/co2mini](https://github.com/kurain/co2mini)を参考にさせていただきました。
