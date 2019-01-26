@@ -8,7 +8,21 @@ services:
     container_name: co2logger
     volumes:
       - ./data:/var/co2log/
-    user: "${UID}:${GID}"
     stdin_open: true
     tty: true
     privileged: true # HIDアクセスのために必要
+
+  # 表示用コンテナ
+  co2webview:
+    # build:
+    #   context: co2webview
+    container_name: co2webview
+    image: ruby
+    volumes:
+      - ./data:/var/co2log/
+      - ./webview:/src/
+    ports:
+      - 26733:8080
+    stdin_open: true
+    tty: true
+    entrypoint: ruby /src/websrv.rb
