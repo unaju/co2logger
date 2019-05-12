@@ -8,6 +8,7 @@ services:
     container_name: co2logger
     volumes:
       - ./data:/var/co2log/
+      - ./co2logger/:/root/:ro
     stdin_open: true
     tty: true
     privileged: true # HIDアクセスのために必要

@@ -16,8 +16,8 @@ RUN \
 # JSTにタイムゾーン設定
 RUN ln -sf  /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
-# スクリプト追加
-ADD ./*.rb /root/
+# # スクリプト追加
+# ADD ./*.rb /root/
 
 ENTRYPOINT  ["ruby", "/root/co2logger.rb"]
 # ENTRYPOINT  ["/bin/bash"]
