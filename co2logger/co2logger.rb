@@ -1,59 +1,34 @@
 #!/usr/bin/env ruby
 require_relative 'co2dev'
+require_relative 'datalogger'
 
+# Log出力設定
+require 'logger'
+logger = Logger.new(STDOUT)
+# logger.level = Logger::Severity::DEBUG
+logger.level = Logger::Severity::ERROR
+
+# ポーリング/書き出し間隔設定
 POLLING_SPAN = 2.0 # [s]
 WRITE_SPAN = 5 * 60 # [s]
 
-dev = Co2Dev.new()
-dev.open()
-
-class DataLogger
-  def get_outfile(t = Time.now)
-    "/var/co2log/#{@key}-" + t.strftime("%y%m%d") + ".csv"
-  end
-
-  def initialize(key, format)
-    @key = key
-    @format = format
-    @ofile = get_outfile()
-    @buffer = ""
-  end
-
-  def add(data)
-    t = Time.now
-    data = "#{t.to_i},#{@format % data}\n"
-    
-    # 出力ファイル名が変わる場合はbuffer書き出し
-    ofile2 = get_outfile(t)
-    if @ofile != ofile2
-      wo_buffer
-      @ofile = ofile2
-    end
-
-    # データをbufferに追記
-    @buffer += data
-  end
-
-  # bufferをファイルに書き出す
-  def wo_buffer()
-    unless @buffer.empty?
-      File.open(@ofile,'a') {|fd| fd.write(@buffer) }
-      @buffer = ""
-    end
-  end
-end
-
-
+# ファイル出力用クラスを温度,CO2濃度別に定義
 keys = [:temp, :co2]
-logger = {
+datalogger = {
   :temp => DataLogger.new("temp", "%.2f"),
   :co2 => DataLogger.new("co2", "%d")
 }
+
+# 書き出しループ
 t0 = Time.now
+dev = Co2Dev.new()
+dev.open()
 
 while true
   # 読み出し
+  logger.debug('read start')
   res = dev.read()
+  logger.debug('read ok')
 
   # 所定時間ごとに1回書き出しのflag
   bufout = (Time.now - t0) > WRITE_SPAN
@@ -61,10 +36,11 @@ while true
 
   # 書き出しbufferに追加
   keys.each { |key|
-    if res[key] then logger[key].add(res[key]) end
-    if bufout then logger[key].wo_buffer() end
+    if res[key] then datalogger[key].add(res[key]) end
+    if bufout then datalogger[key].wo_buffer() end
   }
 
+  logger.debug('sleep start')
   sleep(POLLING_SPAN)
 end
 
