@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  # 記録用コンテナ
+  # record container
   co2logger:
     build:
       context: co2logger
@@ -11,9 +11,9 @@ services:
       - ./co2logger/:/root/:ro
     stdin_open: true
     tty: true
-    privileged: true # HIDアクセスのために必要
+    privileged: true # for HID access
 
-  # 表示用コンテナ
+  # web service container
   co2webview:
     # build:
     #   context: co2webview
