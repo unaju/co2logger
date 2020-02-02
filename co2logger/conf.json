@@ -1,0 +1,5 @@
+{
+  "polling_span": 60,
+  "sample": 1,
+  "write_buffer_size": 6
+}
