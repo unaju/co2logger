@@ -20,18 +20,20 @@ function getAvgArr(arr, span) {
 // データをplot
 function plotData(data) {
   // 温度データ変換：描画負荷軽減のため一定サンプルごとの平均に変換
-  {
-    // x,y軸でデータ分離し平均算出
-    const span = 10
-    const tmpX = getAvgArr(data.temp.map(v => v[0]), span);
-    const tmpY = getAvgArr(data.temp.map(v => v[1]), span);
-    // x,yでデータ結合
-    data.temp = new Array(tmpX.size)
-    for(let i = 0; i < tmpX.length; ++i) {
-      data.temp[i] = { x:tmpX[i]*1000, y:tmpY[i] };
-    }
-    // console.log(data.temp);
-  }
+  // {
+  //   // x,y軸でデータ分離し平均算出
+  //   const span = 10
+  //   const tmpX = getAvgArr(data.temp.map(v => v[0]), span);
+  //   const tmpY = getAvgArr(data.temp.map(v => v[1]), span);
+  //   // x,yでデータ結合
+  //   data.temp = new Array(tmpX.size)
+  //   for(let i = 0; i < tmpX.length; ++i) {
+  //     data.temp[i] = { x:tmpX[i]*1000, y:tmpY[i] };
+  //   }
+  //   // console.log(data.temp);
+  // }
+  // => 不要になったためCO2濃度同様に形式変換のみに
+  data.temp = data.temp.map(v => ({ x:(v[0]*1000), y:v[1] }))
   // CO2濃度データ変換：形式変換のみ
   data.co2 = data.co2.map(v => ({ x:(v[0]*1000), y:v[1] }))
 
