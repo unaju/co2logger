@@ -29,6 +29,7 @@ class Co2Logger
 
     # 読み出し用デバイス初期化
     @dev = Co2Dev.new()
+    @dev.open()
 
     # 書き出しclass初期化
     @datalogger = {
@@ -44,7 +45,7 @@ class Co2Logger
     # サンプルを十分取得できるまで読み出し
     data = { :co2 => [], :temp => [] }
     time = { :co2 => [], :temp => [] }
-    @dev.open()
+    # @dev.open()
     while (data[:co2].size() < @sample) || (data[:temp].size() < @sample)
       # 読み出し
       @logger.debug('dev.read()')
@@ -58,7 +59,7 @@ class Co2Logger
         end
       end
     end
-    @dev.close()
+    # @dev.close()
     
     # 平均を算出して返す
     r = {}

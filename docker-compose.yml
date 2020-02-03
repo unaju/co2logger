@@ -11,6 +11,7 @@ services:
       - ./co2logger/:/root/:ro
     stdin_open: true
     tty: true
+    cpu_quota: 1000 # HIDAPI uses CPU completely and limits usage rate
     privileged: true # for HID access
 
   # web service container
