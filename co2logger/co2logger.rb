@@ -24,8 +24,8 @@ class Co2Logger
 
     # Log出力設定
     @logger = Logger.new(STDOUT)
-    # @logger.level = Logger::Severity::DEBUG
-    @logger.level = Logger::Severity::ERROR
+    @logger.level = Logger::Severity::DEBUG
+    # @logger.level = Logger::Severity::ERROR
 
     # 読み出し用デバイス初期化
     @dev = Co2Dev.new()
@@ -33,7 +33,7 @@ class Co2Logger
 
     # 書き出しclass初期化
     @datalogger = {
-      :temp => DataLogger.new("temp", "%.1f", wb_size),
+      :temp => DataLogger.new("temp", "%.2f", wb_size),
       :co2 => DataLogger.new("co2", "%d", wb_size)
     }
   end

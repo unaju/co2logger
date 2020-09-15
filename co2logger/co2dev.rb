@@ -24,7 +24,7 @@ class Co2Dev
     decrypted = decrypt(@key, res)
 
     if decrypted[4] != 0x0d or (decrypted[0..2].inject(:+) & 0xff) != decrypted[3]
-      warn "Checksum error #{_hex(data).inspect} => #{_hex(decrypted).inspect}"
+      warn "Checksum error #{_hex(buf).inspect} => #{_hex(decrypted).inspect}"
       return {}
     end
     val = decrypted[1] << 8 | decrypted[2]
