@@ -70,6 +70,8 @@ function plotData(data) {
     xAxisID: 'x-axis-1',
     yAxisID: 'y-axis-1',
     data: data.co2,
+    showLine: true,
+    fill: false,
     backgroundColor: 'RGBA(255, 99, 132, 0.8)',
   };
   const tempPlotOpt = {
@@ -77,6 +79,8 @@ function plotData(data) {
     xAxisID: 'x-axis-1',
     yAxisID: 'y-axis-2',
     data: data.temp,
+    showLine: true,
+    fill: false,
     backgroundColor: 'RGBA(255, 205, 86, 0.8)',
   };
   const chopt = {
